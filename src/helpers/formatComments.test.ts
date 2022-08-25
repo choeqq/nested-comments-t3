@@ -102,7 +102,8 @@ const comments = [
 
 describe("format comments", () => {
   it("should nest children comments", () => {
-    expect(formatComments({ comments })).toMatchInlineSnapshot(`
+    // @ts-ignore
+    expect(formatComments(comments)).toMatchInlineSnapshot(`
       [
         {
           "body": "DSA dreamcatcher blue bottle etsy cray. Vexillologist heirloom raw denim tote bag, gentrify mustache offal. Squid Brooklyn occupy cray, typewriter semiotics trust fund tbh single-origin coffee distillery portland. Pickled hexagon edison bulb irony jianbing, tumblr celiac austin truffaut marfa cardigan jean shorts ascot direct trade pork belly. Church-key mumblecore art party polaroid letterpress photo booth knausgaard.",
