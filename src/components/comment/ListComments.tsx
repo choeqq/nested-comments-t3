@@ -1,6 +1,29 @@
-import { Avatar, Box, Group, Paper, Text } from "@mantine/core";
+import { Avatar, Box, Button, Group, Paper, Text } from "@mantine/core";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { trpc, Comment as CommentWithChildren } from "../../utils/trpc";
+import CommentForm from "./CommetForm";
+
+function CommentActions({
+  commentId,
+  replyCount,
+}: {
+  commentId: string;
+  replyCount: number;
+}) {
+  const [replying, setReplying] = useState(false);
+
+  return (
+    <>
+      <Group position="apart" mt="md">
+        <Text>{replyCount}</Text>
+        <Button onClick={() => setReplying(!replying)}>Reply</Button>
+      </Group>
+
+      {replying && <CommentForm parentId={commentId} />}
+    </>
+  );
+}
 
 function Comment({ comment }: { comment: CommentWithChildren }) {
   return (
@@ -27,6 +50,8 @@ function Comment({ comment }: { comment: CommentWithChildren }) {
           {comment.body}
         </Box>
       </Box>
+
+      <CommentActions commentId={comment.id} replyCount={0} />
     </Paper>
   );
 }
