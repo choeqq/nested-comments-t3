@@ -1,8 +1,20 @@
 import { Avatar, Box, Button, Group, Paper, Text } from "@mantine/core";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { trpc, Comment as CommentWithChildren } from "../../utils/trpc";
+import { trpc, CommentWithChildren } from "../../utils/trpc";
 import CommentForm from "./CommetForm";
+
+function getReplyCountText(count: number) {
+  if (count === 0) {
+    return "No replies";
+  }
+
+  if (count === 1) {
+    return "One reply";
+  }
+
+  return `${count} replies`;
+}
 
 function CommentActions({
   commentId,
@@ -16,7 +28,7 @@ function CommentActions({
   return (
     <>
       <Group position="apart" mt="md">
-        <Text>{replyCount}</Text>
+        <Text>{getReplyCountText(replyCount)}</Text>
         <Button onClick={() => setReplying(!replying)}>Reply</Button>
       </Group>
 
@@ -51,21 +63,22 @@ function Comment({ comment }: { comment: CommentWithChildren }) {
         </Box>
       </Box>
 
-      <CommentActions commentId={comment.id} replyCount={0} />
+      <CommentActions
+        commentId={comment.id}
+        replyCount={comment.children.length}
+      />
+
+      {comment.children && comment.children.length > 0 && (
+        <ListComments comments={comment.children} />
+      )}
     </Paper>
   );
 }
 
-function ListComments() {
-  const router = useRouter();
-
-  const permalink = router.query.permalink as string;
-
-  const { data } = trpc.useQuery(["comments.all-comments", { permalink }]);
-
+function ListComments({ comments }: { comments: Array<CommentWithChildren> }) {
   return (
     <Box>
-      {data?.map((comment) => {
+      {comments?.map((comment) => {
         return <Comment key={comment.id} comment={comment} />;
       })}
     </Box>

@@ -1,7 +1,6 @@
 import { Container, Title, Skeleton, Text } from "@mantine/core";
 import { useRouter } from "next/router";
-import CommentForm from "../../components/comment/CommetForm";
-import ListComments from "../../components/comment/ListComments";
+import CommentSection from "../../components/comment/CommentSection";
 import { trpc } from "../../utils/trpc";
 
 function PostPage() {
@@ -37,9 +36,7 @@ function PostPage() {
         <div dangerouslySetInnerHTML={{ __html: postData?.body || "" }} />
       </Skeleton>
 
-      <ListComments />
-
-      <CommentForm />
+      <CommentSection />
     </Container>
   );
 }
