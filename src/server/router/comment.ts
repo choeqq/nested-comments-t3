@@ -17,6 +17,9 @@ export const commentRouter = createRouter()
               permalink,
             },
           },
+          include: {
+            user: true,
+          },
         });
 
         return comments;

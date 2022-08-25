@@ -25,7 +25,7 @@ export type inferMutationInput<
   TRouteKey extends keyof AppRouter["_def"]["mutations"]
 > = inferProcedureInput<AppRouter["_def"]["mutations"][TRouteKey]>;
 
-export type Comment = inferQueryOutput<"comments.get-all">[number];
+export type Comment = inferQueryOutput<"comments.all-comments">[number];
 
 export type CommentWithChildren = Comment & {
   children: Array<CommentWithChildren>;

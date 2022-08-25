@@ -8,11 +8,24 @@ function CommentForm({ parentId }: { parentId?: string }) {
 
   const permalink = router.query.permalink as string;
 
-  const { mutate, isLoading } = trpc.useMutation(["comments.add-comment"]);
-
   const form = useForm({
     initialValues: {
       body: "",
+    },
+  });
+
+  const utils = trpc.useContext();
+
+  const { mutate, isLoading } = trpc.useMutation(["comments.add-comment"], {
+    onSuccess: () => {
+      form.reset();
+
+      utils.invalidateQueries([
+        "comments.all-comments",
+        {
+          permalink,
+        },
+      ]);
     },
   });
 
