@@ -1,5 +1,6 @@
 import { Container, Title, Skeleton, Text } from "@mantine/core";
 import { useRouter } from "next/router";
+import CommentForm from "../../components/comment/CommetForm";
 import { trpc } from "../../utils/trpc";
 
 function PostPage() {
@@ -34,6 +35,8 @@ function PostPage() {
       <Skeleton visible={isLoading}>
         <div dangerouslySetInnerHTML={{ __html: postData?.body || "" }} />
       </Skeleton>
+
+      <CommentForm />
     </Container>
   );
 }
